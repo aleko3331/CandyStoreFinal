@@ -1,0 +1,55 @@
+﻿<div class="btn-group" role="group" aria-label="Basic example">
+    ერთ გვერდზე ნივთების რაოდენობა&emsp;
+    <br>
+    <a class="btn btn-primary" asp-route-currentPage="1" asp-route-pageSize="3" asp-route-pageSorter="@Model.Sorter" asp-route-pageSorterDirection="@Model.SortDirection">3</a>
+    <a class="btn btn-primary" asp-route-currentPage="1" asp-route-pageSize="6" asp-route-pageSorter="@Model.Sorter" asp-route-pageSorterDirection="@Model.SortDirection">6</a>
+    <a class="btn btn-primary" asp-route-currentPage="1" asp-route-pageSize="9" asp-route-pageSorter="@Model.Sorter" asp-route-pageSorterDirection="@Model.SortDirection">9</a>
+</div>
+
+<br>
+<br>
+
+
+<div class="d-flex flex-wrap">
+    @foreach (Item item in Model.Data)
+    {
+
+        <div class="card" style="width: 18rem; padding: 25px 10px 25px 10px;">
+            <img src="@item.PhotoUrl" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">@item.Name</h5>
+                <p class="card-text">@item.Condition</p>
+                <form asp-action="AddToCart" method="post">
+                    @Html.Hidden("Id", item.Id)
+                    <div class="form-group">
+                        <input type="submit" value="Add" class="btn btn-primary center-block" />
+                    </div>
+                </form>
+                <h5>@item.Price ლარი</h5>
+            </div>
+        </div>
+    }
+</div>
+<br>
+<div class="container">
+    <div class="pull-left">
+        <ul class="pagination">
+            <li class="page-item  @(Model.CurrentPage == 1 ? "disabled" : "")">
+                <a class="page-link" asp-route-currentPage="@(Model.CurrentPage - 1)" asp-route-pageSize="@Model.PageSize" asp-route-pageSorter="@Model.Sorter" asp-route-pageSorterDirection="@Model.SortDirection">
+                    წინა
+                </a>
+            </li>
+            @for (var i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                    <a class="page-link" asp-route-currentPage="@i" asp-route-pageSize="@Model.PageSize" asp-route-pageSorter="@Model.Sorter" asp-route-pageSorterDirection="@Model.SortDirection">@i</a>
+                </li>
+            }
+            <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                <a class="page-link" asp-route-currentPage="@(Model.CurrentPage + 1)" asp-route-pageSize="@Model.PageSize" asp-route-pageSorter="@Model.Sorter" asp-route-pageSorterDirection="@Model.SortDirection">
+                    შემდეგი
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
